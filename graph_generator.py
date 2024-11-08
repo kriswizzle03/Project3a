@@ -5,9 +5,9 @@ from datetime import datetime
 def generate_graph(stock_symbol, stock_data, chart_type, begin_date, end_date):
     """Generates and displays a graph based on the stock data and user inputs."""
     
-    # create empty variables to hold JSON data from api
-    #api returns data from dates outside specified range
-    #need variable to hold only needed data
+    # api returns data from dates outside specified range
+    # create empty dictionary to hold only needed JSON data from api
+    # create empty lists for different price types
     processed_data = {}
     dates = []
     opening_prices = []
@@ -32,23 +32,28 @@ def generate_graph(stock_symbol, stock_data, chart_type, begin_date, end_date):
     # Filter data by date range
     for date, data in time_series.items():
         if date >= begin_date and date <= end_date:
+            #add dates to date list (will be used later for x-axis on graph)
             dates.append(date)
             processed_data[date] = data
             
-            # debugging
-            print(processed_data[date])
-            print(date)
-        
-            try:
-                opening_prices.append(float(data['1. open']))  # Change this to the price you want to plot
-                high_prices.append(float(data['2. high']))
-                low_prices.append(float(data['3. low']))
-                closing_prices.append(float(data['4. close']))
+            #add each price to its respective list
+            opening_prices.append(float(data['1. open']))  
+            high_prices.append(float(data['2. high']))
+            low_prices.append(float(data['3. low']))
+            closing_prices.append(float(data['4. close']))
 
-            except KeyError:
-                    print(f"Missing data for date: {date}")
-    #debugging
-    print(opening_prices)
+    #sort data based on date (oldest to newest)
+    sorted_dates = sorted(dates)
+    sorted_opening_prices = [opening_prices[dates.index(date)] for date in sorted_dates]
+    sorted_high_prices = [high_prices[dates.index(date)] for date in sorted_dates]
+    sorted_low_prices = [low_prices[dates.index(date)] for date in sorted_dates]
+    sorted_closing_prices = [closing_prices[dates.index(date)] for date in sorted_dates]
+
+    print(sorted_dates)     
+            #except KeyError:
+              #  print(f"Missing data for date: {date}")
+
+            
 
     # Generate the graph
     if chart_type == "1":
@@ -58,16 +63,13 @@ def generate_graph(stock_symbol, stock_data, chart_type, begin_date, end_date):
         graph = pygal.Line(x_label_rotation=45)
         graph.title = f"Stock Data for {stock_symbol}: {begin_date} to {end_date}"
 
-    # Set x_labels and add data
-    graph.x_labels = dates
-    graph.add('Open', opening_prices)
-    graph.add('High', high_prices)
-    graph.add('Low', low_prices)
-    graph.add('Close', closing_prices)
+    # Set x_labels and add data to graph
+    graph.x_labels = sorted_dates
+    graph.add('Open', sorted_opening_prices)
+    graph.add('High', sorted_high_prices)
+    graph.add('Low', sorted_low_prices)
+    graph.add('Close', sorted_closing_prices)
 
-    # Save the graph
-    graph.render_to_file('stock_prices_graph.svg')
+    # return graph
     return graph.render_data_uri()
 
-    # Open the graph in the default web browser
-    # webbrowser.open('stock_prices_graph.svg')
