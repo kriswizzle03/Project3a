@@ -1,10 +1,40 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{% block title %} Home {% endblock %}</h1>
-    
-        <div class='post'>
-            <p>This is the home page</p>
-        </div>
+    <h1>{% block title %} Stock Data Visualizer {% endblock %}</h1>
+       
+    <form method='post'>
+        <label for="stock">Choose Symbol:</label>
+        <select id="stock" name="stock">
+            <option value="">Select a Stock</option>
+            {% for stocks in stock_list %}
+                <option value="stocks['Symbol']">{{ stocks['Symbol'] }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="graph">Choose Chart Type:</label>
+        <select id="graph" name="graph">
+            <option value="">Select a chart type</option>
+            <option value="Bar">1. Bar</option>                
+            <option value="Line">2. Line</option>
+        </select>
+        <br>
+        <label for="time_series">Choose Time Series:</label>
+        <select id="time_series" name="time_series">
+            <option value="">Select a Time Series</option>
+            <option value="Intraday">1. Intraday</option>
+            <option value="Daily">2. Daily</option>
+            <option value="Weekly">3. Weekly</option>
+            <option value="Monthly">4. Monthly</option>
+        </select>
+        <br>
+        <label for="start_date">Start Date:</label>
+        <input id="start_date" name="start_date" type="date"></input>
+        <br>
+        <label for="start_date">End Date:</label>
+        <input id="end_date" name="end_date" type="date"></input>
+        <br>
+        <input type="submit" value="submit"/>
+        </form>
     
 {% endblock %}
