@@ -15,17 +15,17 @@
         <label for="graph">Choose Chart Type:</label>
         <select id="graph" name="graph">
             <option value="">Select a chart type</option>
-            <option value="Bar">1. Bar</option>                
-            <option value="Line">2. Line</option>
+            <option value="1">1. Bar</option>                
+            <option value="2">2. Line</option>
         </select>
         <br>
         <label for="time_series">Choose Time Series:</label>
         <select id="time_series" name="time_series">
             <option value="">Select a Time Series</option>
-            <option value="Intraday">1. Intraday</option>
-            <option value="Daily">2. Daily</option>
-            <option value="Weekly">3. Weekly</option>
-            <option value="Monthly">4. Monthly</option>
+            <option value="1">1. Intraday</option>
+            <option value="2">2. Daily</option>
+            <option value="3">3. Weekly</option>
+            <option value="4">4. Monthly</option>
         </select>
         <br>
         <label for="start_date">Start Date:</label>
@@ -36,5 +36,11 @@
         <br>
         <input type="submit" value="submit"/>
         </form>
+
+        {% if chart %}
+            <div id="chart">
+                <embed type="image/svg+xml" src= {{ chart|safe }} />
+            </div>
+        {% endif %}
     
 {% endblock %}

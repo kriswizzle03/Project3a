@@ -33,7 +33,7 @@ def generate_graph(stock_symbol, stock_data, chart_type, begin_date, end_date):
         #print(date_str)
         try:
                 prices.append(float(data['1. open']))  # Change this to the price you want to plot
-                print(prices)
+                
         except KeyError:
                 print(f"Missing '1. open' data for date: {date_str}")
     
@@ -51,6 +51,7 @@ def generate_graph(stock_symbol, stock_data, chart_type, begin_date, end_date):
 
     # Save the graph
     graph.render_to_file('stock_prices_graph.svg')
+    return graph.render_data_uri()
 
     # Open the graph in the default web browser
-    webbrowser.open('stock_prices_graph.svg')
+    # webbrowser.open('stock_prices_graph.svg')
