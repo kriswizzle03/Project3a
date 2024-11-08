@@ -57,10 +57,10 @@ def generate_graph(stock_symbol, stock_data, chart_type, begin_date, end_date):
 
     # Generate the graph
     if chart_type == "1":
-        graph = pygal.Bar(x_label_rotation=45)
+        graph = pygal.Bar(x_label_rotation=45, height=400)
         graph.title = f"Stock Data for {stock_symbol}: {begin_date} to {end_date}"
     else:
-        graph = pygal.Line(x_label_rotation=45)
+        graph = pygal.Line(x_label_rotation=45, height=400)
         graph.title = f"Stock Data for {stock_symbol}: {begin_date} to {end_date}"
 
     # Set x_labels and add data to graph
