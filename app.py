@@ -34,7 +34,7 @@ def index():
         begin_date = request.form.get('start_date')
         end_date = request.form.get('end_date')
 
-    print(stock_symbol, chart_type, time_series_function, begin_date, end_date)
+        print(stock_symbol, chart_type, time_series_function, begin_date, end_date)
     
     return render_template('index.html', stock_list=stocks)
 

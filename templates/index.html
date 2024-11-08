@@ -8,7 +8,7 @@
         <select id="stock" name="stock">
             <option value="">Select a Stock</option>
             {% for stocks in stock_list %}
-                <option value="stocks['Symbol']">{{ stocks['Symbol'] }}</option>
+                <option value="{{ stocks['Symbol'] }}">{{ stocks['Symbol'] }}</option>
             {% endfor %}
         </select>
         <br>
