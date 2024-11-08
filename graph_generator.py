@@ -1,14 +1,19 @@
 import pygal
 from lxml import etree
-import datetime
-import webbrowser
+from datetime import datetime
 
 def generate_graph(stock_symbol, stock_data, chart_type, begin_date, end_date):
     """Generates and displays a graph based on the stock data and user inputs."""
     
-    # Prep data
+    # create empty variables to hold JSON data from api
+    #api returns data from dates outside specified range
+    #need variable to hold only needed data
+    processed_data = {}
     dates = []
-    prices = []
+    opening_prices = []
+    high_prices = []
+    low_prices = []
+    closing_prices = []
 
     # Determine the time series to use
     if 'Time Series (5min)' in stock_data: 
@@ -23,31 +28,42 @@ def generate_graph(stock_symbol, stock_data, chart_type, begin_date, end_date):
         print("No valid time series found in the stock data.")
         return
     
+
     # Filter data by date range
-    for date_str, data in time_series.items():
+    for date, data in time_series.items():
+        if date >= begin_date and date <= end_date:
+            dates.append(date)
+            processed_data[date] = data
+            
+            # debugging
+            print(processed_data[date])
+            print(date)
         
-        #date = datetime.strptime(date_str, '%Y-%m-%d')
-        
-        #if begin_date <= date <= end_date:
-        dates.append(date_str)
-        #print(date_str)
-        try:
-                prices.append(float(data['1. open']))  # Change this to the price you want to plot
-                
-        except KeyError:
-                print(f"Missing '1. open' data for date: {date_str}")
-    
+            try:
+                opening_prices.append(float(data['1. open']))  # Change this to the price you want to plot
+                high_prices.append(float(data['2. high']))
+                low_prices.append(float(data['3. low']))
+                closing_prices.append(float(data['4. close']))
+
+            except KeyError:
+                    print(f"Missing data for date: {date}")
+    #debugging
+    print(opening_prices)
+
     # Generate the graph
     if chart_type == "1":
-        graph = pygal.Bar()
-        graph.title = f"{stock_symbol} Stock Prices (Bar Graph)"
+        graph = pygal.Bar(x_label_rotation=45)
+        graph.title = f"Stock Data for {stock_symbol}: {begin_date} to {end_date}"
     else:
-        graph = pygal.Line()
-        graph.title = f"{stock_symbol} Stock Prices (Line Graph)"
+        graph = pygal.Line(x_label_rotation=45)
+        graph.title = f"Stock Data for {stock_symbol}: {begin_date} to {end_date}"
 
     # Set x_labels and add data
     graph.x_labels = dates
-    graph.add('Opening Price', prices)
+    graph.add('Open', opening_prices)
+    graph.add('High', high_prices)
+    graph.add('Low', low_prices)
+    graph.add('Close', closing_prices)
 
     # Save the graph
     graph.render_to_file('stock_prices_graph.svg')

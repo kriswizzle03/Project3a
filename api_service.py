@@ -25,6 +25,9 @@ def construct_url(base_url, time_series, symbol, interval, api_key):
         #intraday time series requires interval parameter
         full_url = base_url + "function=" + time_series + "&symbol=" + symbol + "&interval=" + interval + "&apikey=" + api_key
     else:
-        full_url = base_url + "function=" + time_series + "&symbol=" + symbol + "&apikey=" +api_key
+        #full_url = base_url + "function=" + time_series + "&symbol=" + symbol + "&outputsize=full&apikey=" +api_key
+        #testing purposes since API locked me out
+        full_url = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&outputsize=full&apikey=demo"
     
+    print(full_url)
     return(full_url)

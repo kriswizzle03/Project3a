@@ -12,8 +12,6 @@ app.config["DEBUG"] = True
 app.config['SECRET_KEY'] = 'your secret key'
 
 
-
-
 # use the app.route() decorator to create a Flask view function called index()
 @app.route('/', methods=('GET','POST'))
 def index():
@@ -39,6 +37,7 @@ def index():
         begin_date = request.form.get('start_date')
         end_date = request.form.get('end_date')
 
+        #add error-checking for begin and end dates
         print(stock_symbol, chart_type, time_series_function, begin_date, end_date)
     
         #generate url for api
