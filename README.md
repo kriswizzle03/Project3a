@@ -1,0 +1,2 @@
+# Project 3a
+This is an extension of Project 3 utilizing Flask and Docker to create a UI for the stock data applcation on the web. The python application uses a web form in Flask to get stock data from the user and renders a chart according to the stock data specified. The application is deployed in a Docker container.
