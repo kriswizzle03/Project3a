@@ -1,4 +1,3 @@
-import sqlite3
 from flask import Flask, render_template, request, url_for, flash, redirect, abort
 import pygal
 import csv
@@ -82,4 +81,4 @@ def index():
 
     
 
-app.run(port=5008)
+app.run(host="0.0.0.0")
